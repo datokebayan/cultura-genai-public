@@ -1,0 +1,23 @@
+{
+  "name": "CulturaGenAI Academy — CADG × m-DOAI",
+  "short_name": "CulturaGenAI",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f3",
+  "theme_color": "#0e3036",
+  "description": "Responsible Generative AI Microcredential Demonstrator",
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {detectTopic,makeLearningPlan,safeContext} from '../src/agent-logic.js';
+test('routes privacy question to privacy module',()=>assert.equal(detectTopic('How do I protect privacy?'),'M02'));
+test('routes verification question to integrity module',()=>assert.equal(detectTopic('Check a source and fact verify'),'M03'));
+test('uses original module as default',()=>assert.equal(detectTopic('hello','M04'),'M04'));
+test('context removes identifiers and limits answers',()=>{const result=safeContext({studentId:'REAL NAME',moduleId:'M02',language:'ms',history:[{correct:true,email:'test@example.com'}]});assert.equal(JSON.stringify(result).includes('REAL NAME'),false);assert.equal(JSON.stringify(result).includes('test@example'),false)});
+test('start with foundation',()=>assert.equal(makeLearningPlan('hello',{moduleId:'M01'}).level,'foundation'));
+test('rule progresses with two correct answers',()=>assert.equal(makeLearningPlan('please help',{moduleId:'M01',history:[{correct:true},{correct:true}]}).level,'advanced'));
+test('does not auto approve a credential',()=>{const p=makeLearningPlan('I need help with prompt',{moduleId:'M01'});assert.equal(p.suggestedAction,'open_practice');assert.equal(p.steps[2].kind,'recommend')});
+test('supports four languages',()=>{for(const lang of ['en','ms','zh','ta'])assert.ok(makeLearningPlan('privacy',{language:lang}).statement.length>20)});
